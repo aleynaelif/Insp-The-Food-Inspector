@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "234395316506",
+    "project_id": "insp-1457f",
+    "storage_bucket": "insp-1457f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234395316506:android:f785c2ddd1992329d9fca3",
+        "android_client_info": {
+          "package_name": "com.ley.insp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234395316506-k9ol0lur3bafc99nj3p59qh7hkea345d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHJt8BJfhQ1PHewNkwFaxTaZq9pMpYzw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234395316506-k9ol0lur3bafc99nj3p59qh7hkea345d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
