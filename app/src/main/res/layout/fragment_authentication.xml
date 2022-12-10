@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthenticationActivity"
-    android:background="#EBEBED">
+    tools:context=".AuthenticationFragment"
+    android:id="@+id/consLayout"
+    android:background="@color/gray">
 
     <EditText
         android:id="@+id/EmailTextView"
@@ -38,7 +40,6 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="50dp"
         android:backgroundTint="#5A688E"
-        android:onClick="SignUp"
         android:text="SIGN UP"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordTextView" />
@@ -50,7 +51,6 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="75dp"
         android:backgroundTint="#789FB2"
-        android:onClick="SignIn"
         android:text="SIGN IN"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordTextView" />
@@ -64,4 +64,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
