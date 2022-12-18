@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import com.ley.insp.databinding.FragmentSurveyBinding
 
 class SurveyFragment : Fragment() {
@@ -24,8 +28,8 @@ class SurveyFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSurveyBinding.inflate(inflater, container, false)
 
-        _binding!!.kaydet.setOnClickListener {
-            replaceFragment(CameraFragment())
+        _binding!!.scan.setOnClickListener {
+            onButtonClick(it)
         }
         val view = binding.root
         return view
@@ -37,12 +41,20 @@ class SurveyFragment : Fragment() {
         _binding = null
     }
 
-    private fun replaceFragment(fragment : Fragment){
-        val fragmentManager = parentFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout,fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+    // Register the launcher and result handler
+    private val barcodeLauncher = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+            Toast.makeText(activity, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(activity, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // Launch
+    fun onButtonClick(view: View?) {
+        barcodeLauncher.launch(ScanOptions())
     }
 
 }

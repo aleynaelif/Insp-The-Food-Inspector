@@ -167,12 +167,12 @@
 
 
     <Button
-        android:id="@+id/kaydet"
+        android:id="@+id/scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/myblack"
-        android:text="Kaydet"
+        android:text="Kaydet ve Insp'le!"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
