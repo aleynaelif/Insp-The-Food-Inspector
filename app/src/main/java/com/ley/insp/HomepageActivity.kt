@@ -15,14 +15,13 @@ class HomepageActivity : AppCompatActivity() {
         binding = ActivityHomepageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        replaceFragment(SurveyFragment())
+        replaceFragment(ScanFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId){
-                R.id.checkbox -> replaceFragment(SurveyFragment())
-                R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.checkbox -> replaceFragment(ScanFragment())
+                //R.id.profile -> replaceFragment(ProfileFragment())
                 R.id.history -> replaceFragment(HistoryFragment())
-                R.id.settings -> replaceFragment(SettingsFragment())
 
                 else ->{
 

@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Survey"
+    <item android:title="Scan"
         android:id="@+id/checkbox"
-        android:icon="@drawable/ic_baseline_checklist_24"/>
+        android:icon="@drawable/barcode"/>
     <item android:title="History"
         android:id="@+id/history"
         android:icon="@drawable/ic_baseline_history_24"/>
     <item android:title="Profile"
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"/>
-    <item android:title="Settings"
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings_24"/>
 
 </menu>

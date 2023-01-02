@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         val currentUser = auth.currentUser
         if(currentUser != null){
-            val intent = Intent(this, HomepageActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
-                val intent = Intent(this@MainActivity, HomepageActivity::class.java)
+                val intent = Intent(this@MainActivity, ProfileActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener {
-                val intent = Intent(this@MainActivity, HomepageActivity::class.java)
+                val intent = Intent(this@MainActivity, ProfileActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {

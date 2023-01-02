@@ -1,6 +1,5 @@
 package com.ley.insp
 
-import android.net.Uri.encode
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,20 +10,17 @@ import android.widget.Toast
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import com.ley.insp.databinding.FragmentSurveyBinding
+import com.ley.insp.databinding.FragmentScanBinding
 import okhttp3.*
 import java.io.IOException
-import java.net.URLDecoder
-import java.net.URLEncoder
-import java.net.URLEncoder.encode
-import java.util.concurrent.TimeUnit
 
 
-class SurveyFragment : Fragment() {
-
-    private var _binding: FragmentSurveyBinding? = null
+class ScanFragment : Fragment() {
+    private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
+
     val client = OkHttpClient()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,19 +28,16 @@ class SurveyFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentSurveyBinding.inflate(inflater, container, false)
 
-        _binding!!.scan.setOnClickListener {
+        _binding = FragmentScanBinding.inflate(inflater, container, false)
+        _binding!!.scanItem.setOnClickListener {
             onButtonClick(it)
         }
         val view = binding.root
         return view
-
     }
 
     override fun onDestroyView() {
@@ -74,16 +67,38 @@ class SurveyFragment : Fragment() {
                 override fun onFailure(call: Call, e: IOException)  {e.printStackTrace()}
                 override fun onResponse(call: Call, response: Response) {
 
-                    var product = response.body()?.string()!!.toString()
+                    if(!response.header("status_code").equals("404")){
+                        var product = response.body()?.string()!!.toString()
 
-                    Log.d("TAGDENEME",product)
+                        Log.d("TAGDENEME",product)
 
-                    //teker teker tarama
-                    println("Server: ${response.header("allergen_contains_fish")}")
+                        //teker teker tarama
+                        println("Server: ${response.header("allergen_contains_fish")}")
+                    }
 
+                    else{
+
+                        val MyRequest = Request.Builder()
+                            .url("http://18.220.33.203/barcode/find?barcode=" + result.contents)
+                            .build()
+
+
+                        client.newCall(MyRequest).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException)  {}
+                            override fun onResponse(call: Call, response: Response) {
+
+                                var MyProduct = response.body()?.string()!!.toString()
+                                //URLEncoder.encode(product, "UTF-8")
+
+                                Log.d("MYTAGDENEME",MyProduct)
+
+                            }
+                        })
+                        //  Toast.makeText(activity, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                    }
                 }
             })
-          //  Toast.makeText(activity, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+            //  Toast.makeText(activity, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -91,5 +106,4 @@ class SurveyFragment : Fragment() {
     fun onButtonClick(view: View?) {
         barcodeLauncher.launch(ScanOptions())
     }
-
 }
