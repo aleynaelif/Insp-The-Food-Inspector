@@ -20,7 +20,7 @@ class HomepageActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.checkbox -> replaceFragment(ScanFragment())
-                //R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.profile -> replaceFragment(EditedProfileFragment())
                 R.id.history -> replaceFragment(HistoryFragment())
 
                 else ->{

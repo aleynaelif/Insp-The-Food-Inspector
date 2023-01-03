@@ -36,13 +36,16 @@ class ProfileActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //database içeriği silinecek
         database = this.openOrCreateDatabase("Profile", MODE_PRIVATE,null)
 
         val mCursor: Cursor = database.rawQuery("SELECT * FROM profile", null)
 
 
-        if (mCursor.moveToFirst()) {
+        val intent = intent
+        val info = intent.getStringExtra("info")
+
+
+        if (mCursor.moveToFirst() && !info.equals("updateProfile")) {
             val intent = Intent(this,SurveyActivity::class.java)
             startActivity(intent)
             finish()
