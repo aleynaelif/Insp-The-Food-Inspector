@@ -8,25 +8,39 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.ley.insp.databinding.FragmentEditedProfileBinding
 
 
 class EditedProfileFragment : Fragment() {
     private var _binding: FragmentEditedProfileBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth : FirebaseAuth
+    private lateinit var db : FirebaseFirestore
 
     var profileNameList = ArrayList<String>()
     var profileIdList = ArrayList<Int>()
     var profileAgeList = ArrayList<String>()
     var profileImage = ArrayList<Bitmap>()
 
+
     private lateinit var listeAdapter: ProfileAdapter
+    private  lateinit var surveyAdapter : SurveyAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = Firebase.auth
+        db = Firebase.firestore
+
 
     }
 
@@ -44,10 +58,12 @@ class EditedProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listeAdapter = ProfileAdapter(profileNameList,profileAgeList,profileImage)
+
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = listeAdapter
 
         sqlVeriAlma()
+        firebaseVeriAlma()
 
     }
 
@@ -88,4 +104,44 @@ class EditedProfileFragment : Fragment() {
         }
     }
 
+    fun firebaseVeriAlma(){
+        db.collection("Choices").addSnapshotListener { value, error ->
+            if(error != null){
+                Toast.makeText(getActivity(),error.localizedMessage,Toast.LENGTH_LONG).show()
+            }
+            else{
+                if(value != null){
+                    if(!value.isEmpty){
+
+                        val documents = value.documents
+
+                        for (document in documents){
+                            if(document.id.equals(auth.currentUser!!.uid)){
+                                var surveyData = SurveyData(document.get("sut") as Boolean,
+                                                            document.get("yumurta") as Boolean,
+                                                            document.get("bal") as Boolean,
+                                                            document.get("tereyagi") as Boolean,
+                                                            document.get("tavuk") as Boolean,
+                                                            document.get("kirmiziEt") as Boolean,
+                                                            document.get("deniz") as Boolean,
+                                                            document.get("domuz") as Boolean,
+                                                            document.get("alkol") as Boolean,
+                                                            document.get("laktoz") as Boolean,
+                                                            document.get("gluten") as Boolean,
+                                                            document.get("fistik") as Boolean,
+                                                            document.get("soya") as Boolean,
+                                                            document.get("misir") as Boolean)
+
+                                surveyAdapter = SurveyAdapter(surveyData)
+
+                                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                                binding.recyclerView.adapter = surveyAdapter
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
