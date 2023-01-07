@@ -36,22 +36,20 @@ class ProfileActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        database = this.openOrCreateDatabase("Profile", MODE_PRIVATE,null)
-
-        val mCursor: Cursor = database.rawQuery("SELECT * FROM profile", null)
-
-
         val intent = intent
         val info = intent.getStringExtra("info")
 
+        database = this.openOrCreateDatabase("Profile", MODE_PRIVATE,null)
 
-        if (mCursor.moveToFirst() && !info.equals("updateProfile")) {
+        if (info.equals("main") && !info.equals("updateProfile")) {
             val intent = Intent(this,SurveyActivity::class.java)
+            intent.putExtra("info", "profile")
             startActivity(intent)
             finish()
         } else {
             registerLauncher()
         }
+
     }
 
     fun profilePhoto (view: View){
@@ -81,6 +79,9 @@ class ProfileActivity : AppCompatActivity() {
         val Name = binding.name.text.toString()
         val Age = binding.age.text.toString()
 
+        val intent = intent
+        val info = intent.getStringExtra("info")
+
         //SQLitea görsel kaydetmeden önce küçültmen lazım 1mbı aşan row oluşturuşamaz
 
         if(selectedBitmap != null){
@@ -108,10 +109,15 @@ class ProfileActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
 
-            val intent = Intent(this,SurveyActivity::class.java)
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finish()
+            if(!info.equals("updateProfile")){
+                val intent = Intent(this,SurveyActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this,HomepageActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
     }

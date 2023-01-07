@@ -36,10 +36,22 @@ class SurveyActivity : AppCompatActivity() {
         firestore = Firebase.firestore
         storage = Firebase.storage
 
+        val intent = intent
+        val info = intent.getStringExtra("info")
+
+        if(info.equals("profile")){
+            val intent = Intent(this,HomepageActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         secimleriKaydet(view)
     }
 
     fun secimleriKaydet(view: View) {
+
+        val intent = intent
+        val info = intent.getStringExtra("info")
 
         val kaydet = findViewById<Button>(R.id.saveTheChoices)
 
@@ -53,36 +65,74 @@ class SurveyActivity : AppCompatActivity() {
 
             val user = mapOf("email" to auth.currentUser!!.email)
             val userRef = firestore.collection("Choices")
-            userRef.document(auth.currentUser!!.uid).set(user).addOnSuccessListener {
 
-                if(auth.currentUser != null){
-                    val choicesMap = hashMapOf<String, Any>()
-                    choicesMap.put("userEmail", auth.currentUser!!.email!!)
-                    choicesMap.put("sut",binding.sut.isChecked)
-                    choicesMap.put("yumurta",binding.yumurta.isChecked)
-                    choicesMap.put("bal",binding.bal.isChecked)
-                    choicesMap.put("tereyagi",binding.tereyagi.isChecked)
-                    choicesMap.put("tavuk",binding.tavuk.isChecked)
-                    choicesMap.put("kirmiziEt",binding.kirmiziEt.isChecked)
-                    choicesMap.put("deniz",binding.deniz.isChecked)
-                    choicesMap.put("domuz",binding.domuz.isChecked)
-                    choicesMap.put("alkol",binding.alkol.isChecked)
-                    choicesMap.put("laktoz",binding.laktoz.isChecked)
-                    choicesMap.put("gluten",binding.gluten.isChecked)
-                    choicesMap.put("fistik",binding.fistik.isChecked)
-                    choicesMap.put("soya",binding.soya.isChecked)
-                    choicesMap.put("misir",binding.misir.isChecked)
 
-                    userRef.document(auth.currentUser!!.uid).set(choicesMap).addOnSuccessListener {
-                        val intent = Intent(this, HomepageActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }.addOnFailureListener {
-                        Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
+
+            if (!info.equals("updateSurvey")) {
+                userRef.document(auth.currentUser!!.uid).set(user).addOnSuccessListener {
+
+                    if(auth.currentUser != null){
+
+                        val choicesMap = hashMapOf<String, Any>()
+                        choicesMap.put("userEmail", auth.currentUser!!.email!!)
+                        choicesMap.put("sut",binding.sut.isChecked)
+                        choicesMap.put("yumurta",binding.yumurta.isChecked)
+                        choicesMap.put("bal",binding.bal.isChecked)
+                        choicesMap.put("tereyagi",binding.tereyagi.isChecked)
+                        choicesMap.put("tavuk",binding.tavuk.isChecked)
+                        choicesMap.put("kirmiziEt",binding.kirmiziEt.isChecked)
+                        choicesMap.put("deniz",binding.deniz.isChecked)
+                        choicesMap.put("domuz",binding.domuz.isChecked)
+                        choicesMap.put("alkol",binding.alkol.isChecked)
+                        choicesMap.put("laktoz",binding.laktoz.isChecked)
+                        choicesMap.put("gluten",binding.gluten.isChecked)
+                        choicesMap.put("fistik",binding.fistik.isChecked)
+                        choicesMap.put("soya",binding.soya.isChecked)
+                        choicesMap.put("misir",binding.misir.isChecked)
+
+                        userRef.document(auth.currentUser!!.uid).set(choicesMap).addOnSuccessListener {
+                            val intent = Intent(this, HomepageActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
+                        }
                     }
-                }
-                else{ Toast.makeText(applicationContext,"Lütfen Seçim Yapınız!", Toast.LENGTH_SHORT).show() }
-            }.addOnFailureListener { Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()}
+                    else{ Toast.makeText(applicationContext,"Lütfen Seçim Yapınız!", Toast.LENGTH_SHORT).show() }
+                }.addOnFailureListener { Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()}
+            }else{
+                userRef.document(auth.currentUser!!.uid).update(user).addOnSuccessListener {
+
+                    if(auth.currentUser != null){
+
+                        val choicesMap = hashMapOf<String, Any>()
+                        choicesMap.put("userEmail", auth.currentUser!!.email!!)
+                        choicesMap.put("sut",binding.sut.isChecked)
+                        choicesMap.put("yumurta",binding.yumurta.isChecked)
+                        choicesMap.put("bal",binding.bal.isChecked)
+                        choicesMap.put("tereyagi",binding.tereyagi.isChecked)
+                        choicesMap.put("tavuk",binding.tavuk.isChecked)
+                        choicesMap.put("kirmiziEt",binding.kirmiziEt.isChecked)
+                        choicesMap.put("deniz",binding.deniz.isChecked)
+                        choicesMap.put("domuz",binding.domuz.isChecked)
+                        choicesMap.put("alkol",binding.alkol.isChecked)
+                        choicesMap.put("laktoz",binding.laktoz.isChecked)
+                        choicesMap.put("gluten",binding.gluten.isChecked)
+                        choicesMap.put("fistik",binding.fistik.isChecked)
+                        choicesMap.put("soya",binding.soya.isChecked)
+                        choicesMap.put("misir",binding.misir.isChecked)
+
+                        userRef.document(auth.currentUser!!.uid).set(choicesMap).addOnSuccessListener {
+                            val intent = Intent(this, HomepageActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else{ Toast.makeText(applicationContext,"Lütfen Seçim Yapınız!", Toast.LENGTH_SHORT).show() }
+                }.addOnFailureListener { Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()}
+            }
         }
         }
     }

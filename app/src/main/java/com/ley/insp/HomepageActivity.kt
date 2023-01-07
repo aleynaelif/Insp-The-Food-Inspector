@@ -15,7 +15,7 @@ class HomepageActivity : AppCompatActivity() {
         binding = ActivityHomepageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        replaceFragment(ScanFragment())
+        replaceFragment(EditedProfileFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId){

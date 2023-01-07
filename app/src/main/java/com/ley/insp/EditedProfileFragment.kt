@@ -24,6 +24,7 @@ class EditedProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var auth : FirebaseAuth
     private lateinit var db : FirebaseFirestore
+    private lateinit var surveyData: SurveyData
 
     var profileNameList = ArrayList<String>()
     var profileIdList = ArrayList<Int>()
@@ -32,7 +33,6 @@ class EditedProfileFragment : Fragment() {
 
 
     private lateinit var listeAdapter: ProfileAdapter
-    private  lateinit var surveyAdapter : SurveyAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +56,6 @@ class EditedProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        listeAdapter = ProfileAdapter(profileNameList,profileAgeList,profileImage)
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = listeAdapter
 
         sqlVeriAlma()
         firebaseVeriAlma()
@@ -104,7 +99,7 @@ class EditedProfileFragment : Fragment() {
         }
     }
 
-    fun firebaseVeriAlma(){
+    fun firebaseVeriAlma() {
         db.collection("Choices").addSnapshotListener { value, error ->
             if(error != null){
                 Toast.makeText(getActivity(),error.localizedMessage,Toast.LENGTH_LONG).show()
@@ -117,25 +112,25 @@ class EditedProfileFragment : Fragment() {
 
                         for (document in documents){
                             if(document.id.equals(auth.currentUser!!.uid)){
-                                var surveyData = SurveyData(document.get("sut") as Boolean,
-                                                            document.get("yumurta") as Boolean,
-                                                            document.get("bal") as Boolean,
-                                                            document.get("tereyagi") as Boolean,
-                                                            document.get("tavuk") as Boolean,
-                                                            document.get("kirmiziEt") as Boolean,
-                                                            document.get("deniz") as Boolean,
-                                                            document.get("domuz") as Boolean,
-                                                            document.get("alkol") as Boolean,
-                                                            document.get("laktoz") as Boolean,
-                                                            document.get("gluten") as Boolean,
-                                                            document.get("fistik") as Boolean,
-                                                            document.get("soya") as Boolean,
-                                                            document.get("misir") as Boolean)
+                                surveyData = SurveyData(document.get("sut") as Boolean,
+                                                        document.get("yumurta") as Boolean,
+                                                        document.get("bal") as Boolean,
+                                                        document.get("tereyagi") as Boolean,
+                                                        document.get("tavuk") as Boolean,
+                                                        document.get("kirmiziEt") as Boolean,
+                                                        document.get("deniz") as Boolean,
+                                                        document.get("domuz") as Boolean,
+                                                        document.get("alkol") as Boolean,
+                                                        document.get("laktoz") as Boolean,
+                                                        document.get("gluten") as Boolean,
+                                                        document.get("fistik") as Boolean,
+                                                        document.get("soya") as Boolean,
+                                                        document.get("misir") as Boolean)
 
-                                surveyAdapter = SurveyAdapter(surveyData)
+                                listeAdapter = ProfileAdapter(profileNameList,profileAgeList,profileImage,surveyData)
 
                                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                                binding.recyclerView.adapter = surveyAdapter
+                                binding.recyclerView.adapter = listeAdapter
                             }
                         }
                     }

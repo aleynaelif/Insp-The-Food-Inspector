@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if(currentUser != null){
             val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("info", "main")
             startActivity(intent)
             finish()
         }
