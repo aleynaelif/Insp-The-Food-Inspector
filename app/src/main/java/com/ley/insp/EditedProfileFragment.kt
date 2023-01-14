@@ -112,20 +112,22 @@ class EditedProfileFragment : Fragment() {
 
                         for (document in documents){
                             if(document.id.equals(auth.currentUser!!.uid)){
-                                surveyData = SurveyData(document.get("sut") as Boolean,
-                                                        document.get("yumurta") as Boolean,
-                                                        document.get("bal") as Boolean,
-                                                        document.get("tereyagi") as Boolean,
-                                                        document.get("tavuk") as Boolean,
-                                                        document.get("kirmiziEt") as Boolean,
-                                                        document.get("deniz") as Boolean,
-                                                        document.get("domuz") as Boolean,
-                                                        document.get("alkol") as Boolean,
-                                                        document.get("laktoz") as Boolean,
-                                                        document.get("gluten") as Boolean,
-                                                        document.get("fistik") as Boolean,
-                                                        document.get("soya") as Boolean,
-                                                        document.get("misir") as Boolean)
+                                surveyData = SurveyData(
+                                    document.get("sut") as? Boolean == true,
+                                    document.get("yumurta") as? Boolean == true,
+                                    document.get("bal") as? Boolean == true,
+                                    document.get("tereyagi") as? Boolean == true,
+                                    document.get("tavuk") as? Boolean == true,
+                                    document.get("kirmiziEt") as? Boolean == true,
+                                    document.get("deniz") as? Boolean == true,
+                                    document.get("domuz") as? Boolean == true,
+                                    document.get("alkol") as? Boolean == true,
+                                    document.get("laktoz") as? Boolean == true,
+                                    document.get("gluten") as? Boolean == true,
+                                    document.get("fistik") as? Boolean == true,
+                                    document.get("soya") as? Boolean == true,
+                                    document.get("misir") as? Boolean == true
+                                )
 
                                 listeAdapter = ProfileAdapter(profileNameList,profileAgeList,profileImage,surveyData)
 

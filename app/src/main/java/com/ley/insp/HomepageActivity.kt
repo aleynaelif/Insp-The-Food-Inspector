@@ -38,7 +38,6 @@ class HomepageActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout,fragment)
-        //geri tuşuyla direkt uygulamadan çıkmasını istiyosan aşağıdaki satırı yoruma alabilirsin
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }

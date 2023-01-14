@@ -26,9 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
+
         val currentUser = auth.currentUser
         if(currentUser != null){
-            val intent = Intent(this, ProfileActivity::class.java)
+            val intent = Intent(this, HomepageActivity::class.java)
             intent.putExtra("info", "main")
             startActivity(intent)
             finish()

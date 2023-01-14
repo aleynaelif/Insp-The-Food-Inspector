@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Scan"
+    <item android:title="Tara"
         android:id="@+id/checkbox"
         android:icon="@drawable/barcode"/>
-    <item android:title="History"
+    <item android:title="Geçmiş"
         android:id="@+id/history"
         android:icon="@drawable/ic_baseline_history_24"/>
-    <item android:title="Profile"
+    <item android:title="Profil"
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"/>
 
