@@ -239,9 +239,7 @@ class ScanFragment : Fragment() {
 
 
                                         userRef.document(productName).set(productMap).addOnSuccessListener {
-                                           /* val intent = Intent(this, HomepageActivity::class.java)
-                                            startActivity(intent)
-                                            finish()*/
+                                            openFragment(ProductDataFragment())
                                         }.addOnFailureListener {
                                             Toast.makeText(activity,it.localizedMessage,Toast.LENGTH_LONG).show()
                                         }
@@ -283,5 +281,11 @@ class ScanFragment : Fragment() {
         barcodeLauncher.launch(ScanOptions())
     }
 
+    fun openFragment(fragment : Fragment) {
+    val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
+}
 
 }
