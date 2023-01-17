@@ -1,19 +1,15 @@
 package com.ley.insp
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Bitmap
+
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_recycler_row.view.*
-import kotlinx.android.synthetic.main.profile_recycler_row.view.*
 
-class ProductAdapter (val product: SurveyData) : RecyclerView.Adapter<ProductAdapter.ProductHolder>(){
+class ProductAdapter (val product: ProductData) : RecyclerView.Adapter<ProductAdapter.ProductHolder>(){
     class ProductHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
     }
@@ -30,6 +26,8 @@ class ProductAdapter (val product: SurveyData) : RecyclerView.Adapter<ProductAda
 
         //<---------Checkbox Info -------->
 
+        Picasso.get().load(product.productImage).into(holder.itemView.productImage)
+        holder.itemView.productName.text = product.productName
         holder.itemView.productSut.text = "Süt ve Süt Ürünleri"
         holder.itemView.productYumurta.text = "Yumurta"
         holder.itemView.productBal.text = "Bal"
@@ -77,16 +75,6 @@ class ProductAdapter (val product: SurveyData) : RecyclerView.Adapter<ProductAda
         if(product.misir)
             holder.itemView.productMisir.setTextColor(Color.RED)
 
-
-       /* geridön tuşu????
-       holder.itemView.signOut.setOnClickListener {
-            var auth = Firebase.auth
-            auth.signOut()
-            val intent = Intent(holder.itemView.context, MainActivity::class.java)
-            holder.itemView.context.startActivity(intent)
-            (holder.itemView.context as Activity).finish()
-
-        }*/
     }
 
     override fun getItemCount(): Int {
