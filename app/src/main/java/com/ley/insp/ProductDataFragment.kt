@@ -68,15 +68,12 @@ class ProductDataFragment : Fragment() {
 
                         for (document in documents){
 
-                            if(arguments?.getString("tag").equals("history")) {
-                                barcode = arguments?.getString("barcodeHistory").toString()
-                            }
-                            else
-                                barcode = arguments?.getString("barcode").toString()
-
+                            barcode = arguments?.getString("barcode").toString()
+                            if(!barcode.equals("not found")){
+                            //val barcode1 = arguments?.getString("barcodeH").toString()
 
                             //döküman adı ürün barkodu olucak
-                            if(document.id.equals(barcode)){
+                            if(document.id.equals(barcode)) {
                                 productData = ProductData(
                                     document.get("sut") as? Boolean == true,
                                     document.get("yumurta") as? Boolean == true,
@@ -95,8 +92,32 @@ class ProductDataFragment : Fragment() {
                                     (document.get("productName") as? String)!!,
                                     (document.get("productImage") as? String)!!
                                 )
+                                productAdapter = ProductAdapter(productData)
 
+                                recyclerView.layoutManager = LinearLayoutManager(context)
+                                recyclerView.adapter = productAdapter
+                            }
 
+                            }
+                            else{
+                                productData = ProductData(
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    "null",
+                                    "null"
+                                )
                                 productAdapter = ProductAdapter(productData)
 
                                 recyclerView.layoutManager = LinearLayoutManager(context)

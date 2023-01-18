@@ -111,10 +111,11 @@ class ScanFragment : Fragment() {
                                     if (task.isSuccessful) {
                                         val document = task.result
                                         if (document != null && document.exists()) {
+                                            //surveyData da gönderilicek
                                              openFragment(ProductDataFragment(),result.contents)
                                         } else {
                                             // object does not exist
-                                            APIRequest(result.contents)
+                                            APIRequest(result.contents, surveyData)
                                         }
                                     } else {
                                         // handle error
@@ -144,7 +145,8 @@ class ScanFragment : Fragment() {
         transaction?.commit()
     }
 
-    fun APIRequest(barcode : String){
+    fun APIRequest(barcode : String, surveyData: SurveyData){
+
 
         val request = Request.Builder()
             .url("https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + barcode)
@@ -205,101 +207,103 @@ class ScanFragment : Fragment() {
                             productMap.put("barcode",barcode)
                             productMap.put("productName", productName)
                             productMap.put("productImage", url)
+                            println("--------------------")
+                            println(surveyData.sut)
 
-                            if (ingredients.contains("milk") || ingredients.contains("cream")
+                            if ((ingredients.contains("milk") || ingredients.contains("cream")
                                 || ingredients.contains("yogurt") || ingredients.contains("cheese")
                                 || ingredients.contains("butter") || ingredients.contains("casein")
                                 || ingredients.contains("whey") || ingredients.contains("lactose")
-                                || ingredients.contains("milk powder") || ingredients.contains("milk solids"))
+                                || ingredients.contains("milk powder") || ingredients.contains("milk solids")) && surveyData.sut)
                                 productMap.put("sut", true)
                             else
                                 productMap.put("sut", false)
-                            if (ingredients.contains("egg") || ingredients.contains("egg whites")
+                            if ((ingredients.contains("egg") || ingredients.contains("egg whites")
                                 || ingredients.contains("egg yolks") || ingredients.contains("albumin")
                                 || ingredients.contains("globulin") || ingredients.contains("livetin")
                                 || ingredients.contains("ovomucin") || ingredients.contains("ovomucoid")
-                                || ingredients.contains("ovovitellin"))
+                                || ingredients.contains("ovovitellin")) && surveyData.yumurta)
                                 productMap.put("yumurta", true)
                             else
                                 productMap.put("yumurta", false)
-                            if (ingredients.contains("honey") || ingredients.contains("bee pollen")
-                                || ingredients.contains("bee venom") || ingredients.contains("royal jelly")
-                                || ingredients.contains("propolis"))
+                            if ((ingredients.contains("honey") || ingredients.contains("bee pollen")
+                                        || ingredients.contains("bee venom") || ingredients.contains("royal jelly")
+                                        || ingredients.contains("propolis")) && surveyData.bal)
                                 productMap.put("bal", true)
                             else
                                 productMap.put("bal", false)
-                            if (ingredients.contains("butter") || ingredients.contains("butterfat")
+                            if ((ingredients.contains("butter") || ingredients.contains("butterfat")
                                 || ingredients.contains("butter oil") || ingredients.contains("ghee")
-                                || ingredients.contains("buttercream"))
+                                || ingredients.contains("buttercream")) && surveyData.tereyagi)
                                 productMap.put("tereyagi", true)
                             else
                                 productMap.put("tereyagi", false)
-                            if (ingredients.contains("chicken"))
+                            if (ingredients.contains("chicken") && surveyData.tavuk)
                                 productMap.put("tavuk", true)
                             else
                                 productMap.put("tavuk", false)
-                            if (ingredients.contains("beef"))
+                            if (ingredients.contains("beef") && surveyData.kirmiziEt)
                                 productMap.put("kirmiziEt", true)
                             else
                                 productMap.put("kirmiziEt", false)
-                            if (ingredients.contains("fish") || ingredients.contains("anchovies")
+                            if ((ingredients.contains("fish") || ingredients.contains("anchovies")
                                 || ingredients.contains("sardines") || ingredients.contains("tuna")
                                 || ingredients.contains("salmon") || ingredients.contains("mackerel")
                                 || ingredients.contains("cod") || ingredients.contains("halibut")
-                                || ingredients.contains("omega-3"))
+                                || ingredients.contains("omega-3")) && surveyData.deniz)
                                 productMap.put("deniz", true)
                             else
                                 productMap.put("deniz", false)
-                            if (ingredients.contains("pork") || ingredients.contains("bacon")
-                                || ingredients.contains("ham") || ingredients.contains("gelatin"))
+                            if ((ingredients.contains("pork") || ingredients.contains("bacon")
+                                || ingredients.contains("ham") || ingredients.contains("gelatin")) && surveyData.domuz)
                                 productMap.put("domuz", true)
                             else
                                 productMap.put("domuz", false)
-                            if (ingredients.contains("alcohol") || ingredients.contains("ethanol")
+                            if ((ingredients.contains("alcohol") || ingredients.contains("ethanol")
                                 || ingredients.contains("beer") || ingredients.contains("wine")
-                                || ingredients.contains("spirits") || ingredients.contains("liqueur"))
+                                || ingredients.contains("spirits") || ingredients.contains("liqueur")) && surveyData.alkol)
                                 productMap.put("alkol", true)
                             else
                                 productMap.put("alkol", false)
-                            if (ingredients.contains("lactose") || ingredients.contains("milk")
+                            if ((ingredients.contains("lactose") || ingredients.contains("milk")
                                 || ingredients.contains("cream") || ingredients.contains("whey")
                                 || ingredients.contains("curds") || ingredients.contains("dry milk powder")
-                                || ingredients.contains("condensed milk"))
+                                || ingredients.contains("condensed milk")) && surveyData.laktoz)
                                 productMap.put("laktoz", true)
                             else {
                                 if (ingredients.contains("lactose free") || ingredients.contains("lactose-free"))
                                     productMap.put("laktoz", false)
                                 else productMap.put("laktoz", false)
                             }
-                            if (ingredients.contains("gluten") || ingredients.contains("wheat")
+                            if ((ingredients.contains("gluten") || ingredients.contains("wheat")
                                 || ingredients.contains("barley") || ingredients.contains("rye")
                                 || ingredients.contains("oats") || ingredients.contains("spelt")
                                 || ingredients.contains("kamut") || ingredients.contains("triticale")
-                                || ingredients.contains("malt") || ingredients.contains("brewer's yeast"))
+                                || ingredients.contains("malt") || ingredients.contains("brewer's yeast")) && surveyData.gluten)
                                 productMap.put("gluten", true)
                             else {
                                 if (ingredients.contains("gluten free") || ingredients.contains("gluten-free"))
                                     productMap.put("gluten", false)
                                 else productMap.put("gluten", false)
                             }
-                            if (ingredients.contains("peanuts") || ingredients.contains("peanut butter")
-                                || ingredients.contains("peanut oil") || ingredients.contains("peanut flour"))
+                            if ((ingredients.contains("peanuts") || ingredients.contains("peanut butter")
+                                || ingredients.contains("peanut oil") || ingredients.contains("peanut flour")) && surveyData.fistik)
                                 productMap.put("fistik", true)
                             else {
                                 if (ingredients.contains("peanut free") || ingredients.contains("peanut-free"))
                                     productMap.put("fistik", false)
                                 else productMap.put("fistik", false)
                             }
-                            if (ingredients.contains("soy") || ingredients.contains("soybeans")
+                            if ((ingredients.contains("soy") || ingredients.contains("soybeans")
                                 || ingredients.contains("tofu") || ingredients.contains("tempeh")
-                                || ingredients.contains("miso") || ingredients.contains("natto"))
+                                || ingredients.contains("miso") || ingredients.contains("natto")) && surveyData.soya)
                                 productMap.put("soya", true)
                             else {
                                 if (ingredients.contains("soy free") || ingredients.contains("soy-free"))
                                     productMap.put("soya", false)
                                 else productMap.put("soya", false)
                             }
-                            if (ingredients.contains("corn"))
+                            if (ingredients.contains("corn") && surveyData.misir)
                                 productMap.put("misir", true)
                             else
                                 productMap.put("misir", false)
@@ -316,7 +320,8 @@ class ScanFragment : Fragment() {
                         Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
                     }
                 }
-                else{
+                else if(response.header("status").equals("404 Not Found")){
+
                     val request = Request.Builder().url("http://18.220.33.203/barcode/find?barcode=" + barcode).build()
 
                     val client1 = OkHttpClient.Builder()
@@ -329,137 +334,221 @@ class ScanFragment : Fragment() {
                         override fun onFailure(call: Call, e: IOException)  {}
                         override fun onResponse(call: Call, response: Response) {
 
+
                             var product = response.body()?.string()!!.toString()
-                            //URLEncoder.encode(product, "UTF-8")
 
-                            val json = JSONObject(product)
+                            if (!product.contains("Error")) {
 
-                            var  ingredients = json.getString("Ingredients").lowercase()
-                            var url = json.getString("image_link")
-                            var productName = json.getString("Product")
-                            var allergens = json.getString("Allergens").lowercase()
+                                val json = JSONObject(product)
+
+                                var ingredients = json.getString("Ingredients").lowercase()
+                                var url = json.getString("image_link")
+                                var productName = json.getString("Product")
+                                var allergens = json.getString("Allergens").lowercase()
 
 
-                            val userRef = firestore.collection("Products")
+                                val userRef = firestore.collection("Products")
 
-                            userRef.document(barcode).get().addOnSuccessListener {
+                                userRef.document(barcode).get().addOnSuccessListener {
 
-                                if (auth.currentUser != null) {
+                                    if (auth.currentUser != null) {
 
-                                    val productMap = hashMapOf<String, Any>()
+                                        val productMap = hashMapOf<String, Any>()
 
-                                    productMap.put("userEmail", auth.currentUser!!.email!!)
-                                    productMap.put("barcode",barcode)
-                                    productMap.put("productName", productName)
-                                    productMap.put("productImage", url)
+                                        productMap.put("userEmail", auth.currentUser!!.email!!)
+                                        productMap.put("barcode", barcode)
+                                        productMap.put("productName", productName)
+                                        productMap.put("productImage", url)
 
-                                    if (ingredients.contains("süt") || ingredients.contains("krema")
-                                        || ingredients.contains("yoğurt") || ingredients.contains("peynir")
-                                        || ingredients.contains("tereyağı") || ingredients.contains("kazein")
-                                        || ingredients.contains("laktoz") || ingredients.contains("süt tozu"))
-                                        productMap.put("sut", true)
-                                    else
-                                        productMap.put("sut", false)
-                                    if (ingredients.contains("yumurta") || ingredients.contains("albümin")
-                                        || ingredients.contains("globülin") || ingredients.contains("livetin")
-                                        || ingredients.contains("ovomucin") || ingredients.contains("ovomucoid")
-                                        || ingredients.contains("ovovitellin"))
-                                        productMap.put("yumurta", true)
-                                    else
-                                        productMap.put("yumurta", false)
-                                    if (ingredients.contains("bal") ||  ingredients.contains("arı sütü")
-                                        || ingredients.contains("propolis"))
-                                        productMap.put("bal", true)
-                                    else
-                                        productMap.put("bal", false)
-                                    if (ingredients.contains("tereyağı"))
-                                        productMap.put("tereyagi", true)
-                                    else
-                                        productMap.put("tereyagi", false)
-                                    if (ingredients.contains("tavuk"))
-                                        productMap.put("tavuk", true)
-                                    else
-                                        productMap.put("tavuk", false)
-                                    if (ingredients.contains("dana eti") || ingredients.contains("kuzu eti"))
-                                        productMap.put("kirmiziEt", true)
-                                    else
-                                        productMap.put("kirmiziEt", false)
-                                    if (ingredients.contains("balık") || ingredients.contains("ançuez")
-                                        || ingredients.contains("sardalya") || ingredients.contains("ton balığı")
-                                        || ingredients.contains("somon") || ingredients.contains("uskumru")
-                                        || ingredients.contains("hamsi") || ingredients.contains("omega-3")
-                                        || ingredients.contains("karides") || ingredients.contains("ıstakoz")
-                                        || ingredients.contains("ahtapot"))
-                                        productMap.put("deniz", true)
-                                    else
-                                        productMap.put("deniz", false)
-                                    if (ingredients.contains("domuz") || ingredients.contains("jelatin"))
-                                        productMap.put("domuz", true)
-                                    else {
-                                        if(ingredients.contains("domuz") && ingredients.contains("içermez"))
-                                        productMap.put("domuz", false)
-                                        else productMap.put("domuz", false)
-                                    }
-                                    if (ingredients.contains("alkol") || ingredients.contains("etanol")
-                                        || ingredients.contains("bira") || ingredients.contains("şarap")
-                                        || ingredients.contains("likör"))
-                                        productMap.put("alkol", true)
-                                    else {
-                                        if(ingredients.contains("alkol") && ingredients.contains("içermez"))
-                                        productMap.put("alkol", false)
-                                        else productMap.put("alkol", false)
-                                    }
-                                    if (ingredients.contains("laktoz") || ingredients.contains("süt")
-                                        || ingredients.contains("krema") || ingredients.contains("lor")
-                                        || ingredients.contains("süt tozu") || ingredients.contains("peynir altı suyu tozu"))
-                                        productMap.put("laktoz", true)
-                                    else {
-                                        if (ingredients.contains("laktoz") || ingredients.contains("içermez"))
-                                            productMap.put("laktoz", false)
-                                        else productMap.put("laktoz", false)
-                                    }
-                                    if (ingredients.contains("gluten") || ingredients.contains("buğday")
-                                        || ingredients.contains("arpa") || ingredients.contains("pirinç")
-                                        || ingredients.contains("yulaf") || ingredients.contains("malt")
-                                        || ingredients.contains("bira mayası"))
-                                        productMap.put("gluten", true)
-                                    else {
-                                        if (ingredients.contains("gluten") || ingredients.contains("içermez"))
-                                            productMap.put("gluten", false)
-                                        else productMap.put("gluten", false)
-                                    }
-                                    if (ingredients.contains("yer fıstığı") || ingredients.contains("fıstık ezmesi")
-                                        || ingredients.contains("yer fıstığı yağı"))
-                                        productMap.put("fistik", true)
-                                    else {
-                                        if (ingredients.contains("yer fıstığı") || ingredients.contains("içermez"))
-                                            productMap.put("fistik", false)
-                                        else productMap.put("fistik", false)
-                                    }
-                                    if (ingredients.contains("soya") || ingredients.contains("tofu")
-                                        || ingredients.contains("tempeh") || ingredients.contains("miso")
-                                        || ingredients.contains("natto"))
-                                        productMap.put("soya", true)
-                                    else {
-                                        if (ingredients.contains("soya") || ingredients.contains("içermez"))
-                                            productMap.put("soya", false)
-                                        else productMap.put("soya", false)
-                                    }
-                                    if (ingredients.contains("mısır"))
-                                        productMap.put("misir", true)
-                                    else
-                                        productMap.put("misir", false)
-
-                                    userRef.document(barcode)
-                                        .set(productMap).addOnSuccessListener { openFragment(ProductDataFragment(), barcode)
-                                        }.addOnFailureListener {
-                                            Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
+                                        if ((ingredients.contains("süt") || ingredients.contains("krema")
+                                                    || ingredients.contains("yoğurt") || ingredients.contains(
+                                                "peynir"
+                                            )
+                                                    || ingredients.contains("tereyağı") || ingredients.contains(
+                                                "kazein"
+                                            )
+                                                    || ingredients.contains("laktoz") || ingredients.contains(
+                                                "süt tozu"
+                                            )) && surveyData.sut
+                                        )
+                                            productMap.put("sut", true)
+                                        else
+                                            productMap.put("sut", false)
+                                        if ((ingredients.contains("yumurta") || ingredients.contains(
+                                                "albümin"
+                                            )
+                                                    || ingredients.contains("globülin") || ingredients.contains(
+                                                "livetin"
+                                            )
+                                                    || ingredients.contains("ovomucin") || ingredients.contains(
+                                                "ovomucoid"
+                                            )
+                                                    || ingredients.contains("ovovitellin")) && surveyData.yumurta
+                                        )
+                                            productMap.put("yumurta", true)
+                                        else
+                                            productMap.put("yumurta", false)
+                                        if ((ingredients.contains("bal") || ingredients.contains("arı sütü")
+                                                    || ingredients.contains("propolis")) && surveyData.bal
+                                        )
+                                            productMap.put("bal", true)
+                                        else
+                                            productMap.put("bal", false)
+                                        if (ingredients.contains("tereyağı") && surveyData.tereyagi)
+                                            productMap.put("tereyagi", true)
+                                        else
+                                            productMap.put("tereyagi", false)
+                                        if (ingredients.contains("tavuk") && surveyData.tavuk)
+                                            productMap.put("tavuk", true)
+                                        else
+                                            productMap.put("tavuk", false)
+                                        if ((ingredients.contains("dana eti") || ingredients.contains(
+                                                "kuzu eti"
+                                            )) && surveyData.kirmiziEt
+                                        )
+                                            productMap.put("kirmiziEt", true)
+                                        else
+                                            productMap.put("kirmiziEt", false)
+                                        if ((ingredients.contains("balık") || ingredients.contains("ançuez")
+                                                    || ingredients.contains("sardalya") || ingredients.contains(
+                                                "ton balığı"
+                                            )
+                                                    || ingredients.contains("somon") || ingredients.contains(
+                                                "uskumru"
+                                            )
+                                                    || ingredients.contains("hamsi") || ingredients.contains(
+                                                "omega-3"
+                                            )
+                                                    || ingredients.contains("karides") || ingredients.contains(
+                                                "ıstakoz"
+                                            )
+                                                    || ingredients.contains("ahtapot")) && surveyData.deniz
+                                        )
+                                            productMap.put("deniz", true)
+                                        else
+                                            productMap.put("deniz", false)
+                                        if ((ingredients.contains("domuz") || ingredients.contains("jelatin")) && surveyData.domuz)
+                                            productMap.put("domuz", true)
+                                        else {
+                                            if (ingredients.contains("domuz") && ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("domuz", false)
+                                            else productMap.put("domuz", false)
                                         }
-                                } else {
-                                    Toast.makeText(activity, "Lütfen Seçim Yapınız!", Toast.LENGTH_SHORT).show()
+                                        if ((ingredients.contains("alkol") || ingredients.contains("etanol")
+                                                    || ingredients.contains("bira") || ingredients.contains(
+                                                "şarap"
+                                            )
+                                                    || ingredients.contains("likör")) && surveyData.alkol
+                                        )
+                                            productMap.put("alkol", true)
+                                        else {
+                                            if (ingredients.contains("alkol") && ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("alkol", false)
+                                            else productMap.put("alkol", false)
+                                        }
+                                        if ((ingredients.contains("laktoz") || ingredients.contains(
+                                                "süt"
+                                            )
+                                                    || ingredients.contains("krema") || ingredients.contains(
+                                                "lor"
+                                            )
+                                                    || ingredients.contains("süt tozu") || ingredients.contains(
+                                                "peynir altı suyu tozu"
+                                            )) && surveyData.laktoz
+                                        )
+                                            productMap.put("laktoz", true)
+                                        else {
+                                            if (ingredients.contains("laktoz") || ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("laktoz", false)
+                                            else productMap.put("laktoz", false)
+                                        }
+                                        if ((ingredients.contains("gluten") || ingredients.contains(
+                                                "buğday"
+                                            )
+                                                    || ingredients.contains("arpa") || ingredients.contains(
+                                                "pirinç"
+                                            )
+                                                    || ingredients.contains("yulaf") || ingredients.contains(
+                                                "malt"
+                                            )
+                                                    || ingredients.contains("bira mayası")) && surveyData.gluten
+                                        )
+                                            productMap.put("gluten", true)
+                                        else {
+                                            if (ingredients.contains("gluten") || ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("gluten", false)
+                                            else productMap.put("gluten", false)
+                                        }
+                                        if ((ingredients.contains("yer fıstığı") || ingredients.contains(
+                                                "fıstık ezmesi"
+                                            )
+                                                    || ingredients.contains("yer fıstığı yağı")) && surveyData.fistik
+                                        )
+                                            productMap.put("fistik", true)
+                                        else {
+                                            if (ingredients.contains("yer fıstığı") || ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("fistik", false)
+                                            else productMap.put("fistik", false)
+                                        }
+                                        if ((ingredients.contains("soya") || ingredients.contains("tofu")
+                                                    || ingredients.contains("tempeh") || ingredients.contains(
+                                                "miso"
+                                            )
+                                                    || ingredients.contains("natto")) && surveyData.soya
+                                        )
+                                            productMap.put("soya", true)
+                                        else {
+                                            if (ingredients.contains("soya") || ingredients.contains(
+                                                    "içermez"
+                                                )
+                                            )
+                                                productMap.put("soya", false)
+                                            else productMap.put("soya", false)
+                                        }
+                                        if (ingredients.contains("mısır") && surveyData.misir)
+                                            productMap.put("misir", true)
+                                        else
+                                            productMap.put("misir", false)
+
+                                        userRef.document(barcode)
+                                            .set(productMap).addOnSuccessListener {
+                                                openFragment(ProductDataFragment(), barcode)
+                                            }.addOnFailureListener {
+                                                Toast.makeText(
+                                                    activity,
+                                                    it.localizedMessage,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                    } else {
+                                        Toast.makeText(
+                                            activity,
+                                            "Lütfen Seçim Yapınız!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }.addOnFailureListener {
+                                    Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG)
+                                        .show()
                                 }
-                            }.addOnFailureListener {
-                                Toast.makeText(activity, it.localizedMessage, Toast.LENGTH_LONG).show()
+                            }
+                            else{
+                                openFragment(ProductDataFragment(),"not found")
                             }
                         }
                     })

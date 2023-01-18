@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.api.Context
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.history_recycler_row.view.*
 import kotlinx.android.synthetic.main.product_recycler_row.view.*
@@ -29,15 +31,14 @@ class HistoryAdapter (val productNameList : ArrayList<String>, val productImage 
 
         holder.itemView.historyImage.setOnClickListener{
 
-                var fragment = ProductDataFragment()
-                val bundleHistory = Bundle()
-                bundleHistory.putString("barcodeHistory", productBarcode[position])
-                bundleHistory.putString("tag", "history")
-                fragment.arguments = bundleHistory
-                val transaction = (holder.itemView.context as HomepageActivity).supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, ProductDataFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
+            var fragment = ProductDataFragment()
+            val bundle = Bundle()
+            bundle.putString("barcodeH", productBarcode[position])
+            fragment.arguments = bundle
+            val transaction = (holder.itemView.context as HomepageActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frameLayout, ProductDataFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
 
         }
 

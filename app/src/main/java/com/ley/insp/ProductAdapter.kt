@@ -24,56 +24,77 @@ class ProductAdapter (val product: ProductData) : RecyclerView.Adapter<ProductAd
 
     override fun onBindViewHolder(holder: ProductHolder, position: Int) {
 
-        //<---------Checkbox Info -------->
+        if(!product.productImage.equals("null") && !product.productName.equals("null")) {
 
-        Picasso.get().load(product.productImage).into(holder.itemView.productImage)
-        holder.itemView.productName.text = product.productName
-        holder.itemView.productSut.text = "Süt ve Süt Ürünleri"
-        holder.itemView.productYumurta.text = "Yumurta"
-        holder.itemView.productBal.text = "Bal"
-        holder.itemView.productTereyagi.text = "Tereyağı"
-        holder.itemView.productTavuk.text = "Tavuk"
-        holder.itemView.productKirmiziEt.text = "Kırmızı Et"
-        holder.itemView.productDeniz.text = "Deniz Ürünleri"
-        holder.itemView.productDomuz.text = "Domuz Eti"
-        holder.itemView.productAlkol.text = "Alkol"
-        holder.itemView.productLaktoz.text = "Laktoz"
-        holder.itemView.productGluten.text = "Gluten"
-        holder.itemView.productFistik.text = "Yer Fıstığı"
-        holder.itemView.productSoya.text = "Soya"
-        holder.itemView.productMisir.text = "Mısır"
+            //<---------Checkbox Info -------->
+
+            Picasso.get().load(product.productImage).into(holder.itemView.productImage)
+            holder.itemView.productName.text = product.productName
+            holder.itemView.productSut.text = "Süt ve Süt Ürünleri"
+            holder.itemView.productYumurta.text = "Yumurta"
+            holder.itemView.productBal.text = "Bal"
+            holder.itemView.productTereyagi.text = "Tereyağı"
+            holder.itemView.productTavuk.text = "Tavuk"
+            holder.itemView.productKirmiziEt.text = "Kırmızı Et"
+            holder.itemView.productDeniz.text = "Deniz Ürünleri"
+            holder.itemView.productDomuz.text = "Domuz Eti"
+            holder.itemView.productAlkol.text = "Alkol"
+            holder.itemView.productLaktoz.text = "Laktoz"
+            holder.itemView.productGluten.text = "Gluten"
+            holder.itemView.productFistik.text = "Yer Fıstığı"
+            holder.itemView.productSoya.text = "Soya"
+            holder.itemView.productMisir.text = "Mısır"
 
 
-        //<--------color changes---------->
+            //<--------color changes---------->
 
-        if(product.sut)
-            holder.itemView.productSut.setTextColor(Color.RED)
-        if(product.yumurta)
-            holder.itemView.productYumurta.setTextColor(Color.RED)
-        if(product.bal)
-            holder.itemView.productBal.setTextColor(Color.RED)
-        if(product.tereyagi)
-            holder.itemView.productTereyagi.setTextColor(Color.RED)
-        if(product.tavuk)
-            holder.itemView.productTavuk.setTextColor(Color.RED)
-        if(product.kirmiziEt)
-            holder.itemView.productKirmiziEt.setTextColor(Color.RED)
-        if(product.deniz)
-            holder.itemView.productDeniz.setTextColor(Color.RED)
-        if(product.domuz)
-            holder.itemView.productDomuz.setTextColor(Color.RED)
-        if(product.alkol)
-            holder.itemView.productAlkol.setTextColor(Color.RED)
-        if(product.laktoz)
-            holder.itemView.productLaktoz.setTextColor(Color.RED)
-        if(product.gluten)
-            holder.itemView.productGluten.setTextColor(Color.RED)
-        if(product.fistik)
-            holder.itemView.productFistik.setTextColor(Color.RED)
-        if(product.soya)
-            holder.itemView.productSoya.setTextColor(Color.RED)
-        if(product.misir)
-            holder.itemView.productMisir.setTextColor(Color.RED)
+            if (product.sut)
+                holder.itemView.productSut.setTextColor(Color.RED)
+            if (product.yumurta)
+                holder.itemView.productYumurta.setTextColor(Color.RED)
+            if (product.bal)
+                holder.itemView.productBal.setTextColor(Color.RED)
+            if (product.tereyagi)
+                holder.itemView.productTereyagi.setTextColor(Color.RED)
+            if (product.tavuk)
+                holder.itemView.productTavuk.setTextColor(Color.RED)
+            if (product.kirmiziEt)
+                holder.itemView.productKirmiziEt.setTextColor(Color.RED)
+            if (product.deniz)
+                holder.itemView.productDeniz.setTextColor(Color.RED)
+            if (product.domuz)
+                holder.itemView.productDomuz.setTextColor(Color.RED)
+            if (product.alkol)
+                holder.itemView.productAlkol.setTextColor(Color.RED)
+            if (product.laktoz)
+                holder.itemView.productLaktoz.setTextColor(Color.RED)
+            if (product.gluten)
+                holder.itemView.productGluten.setTextColor(Color.RED)
+            if (product.fistik)
+                holder.itemView.productFistik.setTextColor(Color.RED)
+            if (product.soya)
+                holder.itemView.productSoya.setTextColor(Color.RED)
+            if (product.misir)
+                holder.itemView.productMisir.setTextColor(Color.RED)
+        }
+        else{
+            holder.itemView.productName.text = "Ürün Bulunamadı!"
+            holder.itemView.productSut.text = ""
+            holder.itemView.productYumurta.text = ""
+            holder.itemView.productBal.text = ""
+            holder.itemView.productTereyagi.text = ""
+            holder.itemView.productTavuk.text = ""
+            holder.itemView.productKirmiziEt.text = ""
+            holder.itemView.productDeniz.text = ""
+            holder.itemView.productDomuz.text = ""
+            holder.itemView.productAlkol.text = ""
+            holder.itemView.productLaktoz.text = ""
+            holder.itemView.productGluten.text = ""
+            holder.itemView.productFistik.text = ""
+            holder.itemView.productSoya.text = ""
+            holder.itemView.productMisir.text = ""
+        }
+
 
     }
 

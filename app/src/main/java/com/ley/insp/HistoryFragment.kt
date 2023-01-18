@@ -69,14 +69,13 @@ class HistoryFragment : Fragment() {
                                 productImage.add((document.get("productImage") as? String).toString())
                                 productBarcode.add((document.get("barcode") as? String).toString())
 
-
-                                historyAdapter = HistoryAdapter(productNameList,productImage,productBarcode)
-                                recyclerView.layoutManager = LinearLayoutManager(context)
-                                recyclerView.adapter = historyAdapter
                             } else {
                                 // object does not exist
 
                             }
+                            historyAdapter = HistoryAdapter(productNameList,productImage,productBarcode)
+                            recyclerView.layoutManager = LinearLayoutManager(context)
+                            recyclerView.adapter = historyAdapter
                         }
                     }
                 }
